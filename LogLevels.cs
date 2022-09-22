@@ -4,16 +4,29 @@ static class LogLine
 {
     public static string Message(string logLine)
     {
-        throw new NotImplementedException("Please implement the (static) LogLine.Message() method");
+        var subStrings = logLine.Split(':', StringSplitOptions.TrimEntries);
+        var message = subStrings.GetValue(1);
+        return message.ToString();
     }
 
     public static string LogLevel(string logLine)
     {
-        throw new NotImplementedException("Please implement the (static) LogLine.LogLevel() method");
+        var subStrings = logLine.Split('[', ']');
+        var logLevel = subStrings.GetValue(1);
+        return logLevel.ToString().ToLower();
     }
 
     public static string Reformat(string logLine)
     {
-        throw new NotImplementedException("Please implement the (static) LogLine.Reformat() method");
+        char[] separators = { '[', ']', ':' };
+        var subStrings = logLine.Split(separators, StringSplitOptions.TrimEntries);
+        subStrings.SetValue("(",0);
+        subStrings.SetValue(")",2);
+
+        var reformatLogLine = subStrings.GetValue(3) + " " +
+                              subStrings.GetValue(0) +
+                              subStrings.GetValue(1).ToString().ToLower() +
+                              subStrings.GetValue(2);
+        return reformatLogLine;
     }
 }
